@@ -1,0 +1,91 @@
+<script>
+    $(document).ready(function(){
+        var table = $('#anggota-datatable').DataTable({
+            "ajax": "/anggota",
+            "columns": [
+                {"data": null, "render": function (data, type, row, meta) {
+                    // Add a custom column for the row index
+                    return meta.row + 1;}},
+                {"data": "nama"},
+                {"data": "jenkel"},
+                {"data": "jabatan"},
+                {"data": "alamat"},
+                {"data": "no_hp"},
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        return '<button class="editBtn btn btn-primary" data-id="' + data.id + '"><i class="fa fa-edit"></i></button> ' +
+                               '<button class="deleteBtn btn btn-danger" data-id="' + data.id + '"><i class="fa fa-trash"></i></button>';
+                    }
+                }
+            ]
+        });
+
+        $('#inputForm').submit(function (e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+            var userId = $('#userId').val();
+            
+            if (userId) {
+                // Update User
+                $.ajax({
+                    url: '/anggota/' + userId,
+                    type: 'PUT',
+                    data: formData,
+                    success: function (data) {
+                        alert(data.message);
+                        $('#inputModal').modal('hide');
+                        table.ajax.reload();
+                    }
+                });
+            } else {
+                // Add User
+                $.ajax({
+                    url: '/anggota',
+                    type: 'POST',
+                    data: formData,
+                    success: function (data) {
+                        alert(data.message);
+                        $('#inputModal').modal('hide');
+                        table.ajax.reload();
+                    }
+                });
+            }
+        });
+
+        // Open User Modal for Edit
+        $('#anggota-datatable tbody').on('click', '.editBtn', function () {
+            var data = table.row($(this).parents('tr')).data();
+            $('#userId').val(data.id);
+            $('#nama').val(data.nama);
+            $('#jenkel').val(data.jenkel);
+            $('#jabatan').val(data.jabatan);
+            $('#alamat').val(data.alamat);
+            $('#no_hp').val(data.no_hp);
+            $('#btn-save').html('Ubah');
+            $('#inputModalLabel').html('Ubah Data Anggota');
+            $('#inputModal').modal('show');
+        });
+
+        // Hapus Anggota
+        $('#anggota-datatable tbody').on('click', '.deleteBtn', function () {
+            var userId = $(this).data('id');
+            $.ajax({
+                url: '/anggota/' + userId,
+                type: 'DELETE',
+                success: function (data) {
+                    table.ajax.reload();
+                }
+            });
+        });
+
+    });
+
+    $('.btn0').on('click', function(e){
+        e.preventDefault()
+        $('#inputForm').trigger('reset');
+        $('#inputModal').modal('show');
+        $('#inputModalLabel').html('Tambah Anggota Baru');
+        $('#btn-save').html('Simpan');
+    });
+</script>

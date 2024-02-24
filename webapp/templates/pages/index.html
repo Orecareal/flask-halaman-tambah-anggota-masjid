@@ -1,0 +1,72 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row">
+        <h3 class="text-center">Sistem Informasi Kas Masjid X, Jl. X, Kec. X, Kel.X</h3>
+        <div class="col-lg-10 mx-auto">
+            <button class="btn0 btn btn-success"><i class="fa fa-plus"></i><i class="fa fa-user"></i></button>
+            <table class="table table-stripped" id="anggota-datatable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama Lengkap</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Jabatan</th>
+                        <th>Alamat</th>
+                        <th>No. Hp</th>
+                        <th>Tindakan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="inputModal" tabindex="-1" aria-labelledby="inputModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="inputModalLabel"></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="javascript:void(0)" id="inputForm">
+                <input type="hidden" id="userId" name="id">
+                <div class="mb-3">
+                    <label>Nama Lengkap</label>
+                    <input type="text" class="form-control" id="nama" name="nama">
+                </div>
+                <div class="mb-3">
+                    <label>Jenis Kelamin</label>
+                    <select class="form-control" id="jenkel" name="jenkel">
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Jabatan</label>
+                    <input type="text" class="form-control" id="jabatan" name="jabatan">
+                </div>
+                <div class="mb-3">
+                    <label>Alamat</label>
+                    <textarea class="form-control" name="alamat" id="alamat" cols="10" rows="3" style="resize: none;"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>No. Hp</label>
+                    <input type="text" class="form-control" id="no_hp" name="no_hp">
+                </div>
+                <div class="modal-footer my-3">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" id="btn-save" class="btn btn-primary"></button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>  
+<!-- /. Modal -->
+{% include "js/js.html" %}
+{% endblock content %}
